@@ -1,0 +1,6 @@
+Frases, pensamentos e ideias que eu devo seguir:
+
+"Para cada rota que crio, devo escrever numa linha o que ela faz, quem pode acedê-la, e o que devolve em caso de sucesso e de erro.
+Se não consigo escrever isso antes do código, ainda não estou pronto para o escrever." - By Claude
+
+"The only way to do great work is to love what you do." - Steve Jobs
