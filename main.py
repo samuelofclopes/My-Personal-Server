@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from itsdangerous import URLSafeTimedSerializer
 from extensions import db, jwt, migrate, limiter
+from routes.auth import auth as auth_bp
 
 # create_app é a função que retorna toda a aplicação e as suas extenções.
 def create_app():
@@ -13,8 +14,8 @@ def create_app():
     jwt.init_app(app)
     migrate.init_app(app, db)
     limiter.init_app(app)
-    serializer = URLSafeTimedSerializer(os.getenv("JWT_KEY"))
-    # 4. Registar blueprints
+    app.serializer = URLSafeTimedSerializer(os.getenv("JWT_KEY"))
+    app.register_blueprint(auth_bp)
     return app
 
 

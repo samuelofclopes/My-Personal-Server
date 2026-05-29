@@ -1,13 +1,20 @@
 from flask import Blueprint, request, current_app, jsonify
-from extensions import db
+from extensions import db, limiter
 from models.user import User
 from mail_sender import send_mail
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from auth.validators import password_valida, email_valido, username_valido, confirm_password, have_all_data
 from itsdangerous import BadSignature, SignatureExpired
 auth = Blueprint("auth", __name__)
 
 
+"""
+Esta rota é responsável por registar um novo utilizador, validar os dados fornecidos,
+criar um token de verificação, guardar o utilizador na base de dados e enviar um email de verificação.
+
+"""
 @auth.route("/api/auth/signup", methods=["POST"])
+@limiter.limit("30 per minute")
 def signup():
     # Obter os dados do pedido
     dados = request.get_json()
@@ -69,3 +76,109 @@ def signup():
             "created_at": novo_user.created_at.isoformat()
         }
     }), 201
+
+
+
+"""
+Esta rota é resposável por fazer o login no servidor, validar os dados fornecidos,
+verificar se o utilizador existe e se a password está correta.
+"""
+@auth.route("/api/auth/signin", methods=["POST"])
+@limiter.limit("30 per minute")
+def signin():
+    # Obter os dados do pedido
+    dados = request.get_json()
+
+    # Pegar os dados necessários e validar cada um deles
+    # Assegurar que os dados necessários estão presentes
+    have_all_data_result = have_all_data(dados, "signin")
+    if not dados or not have_all_data_result[0]:
+        return {"message": have_all_data_result[1]}, 400
+    
+
+
+    # Verificar se o utilizador existe e se a password está correta
+    user = User.query.filter_by(email=dados.get("email")).first()
+    if not user or not user.check_password(dados.get("password")):
+        return {"message": "Email ou password incorretos"}, 401
+
+    # Verificar se o email do utilizador está verificado
+    if not user.email_v:
+        return {"message": "Email não verificado. Por favor, verifique seu email antes de fazer login."}, 403
+    
+    # Criar o token de acesso
+    token = create_access_token(identity=str(user.id))
+
+    # Retornar resposta de sucesso
+    return jsonify({
+        "message": "Login bem sucedido",
+        "token": token,
+        "user": {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "created_at": user.created_at.isoformat(),
+        }
+    }), 200
+
+
+
+"""
+Esta rota é responsável por retornar os dados do utilizador,
+para isso, ele precisa de um token de acesso dado pelo login.
+"""
+@auth.route("/api/auth/user", methods=["GET"])
+@limiter.limit("30 per minute")
+@jwt_required()
+def get_user():
+    # Obter o token de acesso do header Authorization
+    user = User.query.get(get_jwt_identity())
+
+    if not user:
+        return {"message": "Utilizador não encontrado"}, 404
+
+
+
+
+    # Retornar os dados do utilizador
+    return jsonify({
+        "id": user.id,
+        "username": user.username,
+        "email": user.email,
+        "created_at": user.created_at.isoformat()
+    }), 200
+
+
+
+"""
+Esta rota é responsável por verificar o email do utilizador,
+para isso, ele precisa de dados de verificação vindos do email.
+"""
+@auth.route("/api/auth/confirm_email/<string:token>", methods=["POST"])
+@limiter.limit("30 per minute")
+def confirm_email(token):
+    
+
+    # Verificar se o código de verificação é válido e não expirou usando try except para controlar os erros.
+    try:
+        token_username = current_app.serializer.loads(token, salt="confirmar-email", max_age=14400).get("username")
+
+    except SignatureExpired:
+        return {"message": "Codigo de verificação expirado"}, 400
+    
+    except BadSignature:
+        return {"message": "Codigo de verificação inválido"}, 400
+
+
+    # Pegar o utilizador da base de dados e verificar se ele existe
+    user = User.query.filter_by(username=token_username).first()
+    if not user:
+        return {"message": "Utilizador não encontrado"}, 404
+    
+
+    # Verificar o código de verificação
+    user.email_v = True
+    db.session.commit()
+
+    # Retornar resposta de sucesso
+    return {"message": "Email verificado com sucesso"}, 200
