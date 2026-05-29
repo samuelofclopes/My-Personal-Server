@@ -1,7 +1,7 @@
-from flask import Blueprint, request, current_app, jsonify
+from flask import Blueprint, request, current_app, jsonify, redirect
 from extensions import db, limiter
 from models.user import User
-from mail_sender import send_mail
+from mail_sender import send_mail, send_recovery_mail
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from auth.validators import password_valida, email_valido, username_valido, confirm_password, have_all_data
 from itsdangerous import BadSignature, SignatureExpired
@@ -182,3 +182,100 @@ def confirm_email(token):
 
     # Retornar resposta de sucesso
     return {"message": "Email verificado com sucesso"}, 200
+
+
+
+
+"""
+Esta rota é responsavel por enviar um email de recuperação de password,
+para isso, ele precisa do email do utilizador.
+"""
+@auth.route("/api/auth/forgot_password", methods=["POST"])
+@limiter.limit("30 per minute")
+def forgot_password():
+
+    # Obter os dados do pedido
+    dados = request.get_json()
+
+
+    # Verificar se o utilizador existe e se os dados extão presentes
+    if not dados or not dados.get("email"):
+        return {"message": "Email não fornecido"}, 400
+
+    user = User.query.filter_by(email=dados.get("email")).first()
+    if not user:
+        return {"message": "Verifica a caixa de entrada do email."}, 400
+
+
+    # Criar o token de recuperação de password
+    token = current_app.serializer.dumps({"username": user.username}, salt="recuperar-password")
+
+
+    # Enviar email de recuperação de password
+    send_recovery_mail(
+        email=user.email,
+        code=token,
+    )
+
+
+    # Retornar resposta de sucesso
+    return {"message": "Verifica a caixa de entrada do email."}, 200
+
+
+
+
+"""
+Esta rota é responsável por recuperar a password do utilizador,
+para isso, ele precisa de dados de recuperação de password vindos do email.
+"""
+@auth.route("/api/auth/reset_password/<string:token>", methods=["GET","POST"])
+@limiter.limit("30 per minute")
+def reset_password(token):
+
+    # Verificar se o código de recuperação de password é válido e não expirou usando try except para controlar os erros.
+    try:
+        token_username = current_app.serializer.loads(token, salt="recuperar-password", max_age=3600).get("username")
+    except SignatureExpired:
+        return {"message": "Codigo de recuperação de password expirado"}, 400
+    except BadSignature:
+        return {"message": "Codigo de recuperação de password inválido"}, 400
+    
+
+
+    # Se o método for GET, redirecionar para a página de reset de password.
+    if request.method == "GET":
+        return redirect(f"/reset_password?token={token}")
+    
+
+    # Obter os dados do pedido
+    dados = request.get_json()
+
+
+
+    # Verificar se os dados estão presentes e se a password é válida
+    if not dados or not dados.get("password") or not dados.get("confirm_password"):
+        return {"message": "Dados incompletos"}, 400
+    
+
+
+    # Verificar se a pass nova é valida e se as duas passwords condizem.
+    password_valida_result = password_valida(dados.get("password"))
+    if not password_valida_result[0]:
+        return {"message": password_valida_result[1]}, 400
+    
+    confirm_password_result = confirm_password(dados.get("password"), dados.get("confirm_password"))
+    if not confirm_password_result[0]:
+        return {"message": confirm_password_result[1]}, 400
+    
+    
+    # verificar se utilizador existe
+    user = User.query.filter_by(username=token_username).first()
+    if not user:
+        return {"message": "Codigo de recuperação de password inválido"}, 400
+
+
+    # Atualizar a password do utilizador
+    user.set_password(dados.get("password"))
+    db.session.commit()
+
+    return {"message": "Password atualizada com sucesso"}, 200
