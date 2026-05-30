@@ -65,3 +65,51 @@ def add_comentario():
 
     # Retorna resposta de sucesso
     return jsonify({"message": "Comentário adicionado com sucesso."}), 201
+
+
+
+
+"""
+Esta rota é responsável por apagar um comentário do moral,
+ela pega o id do comentário pela rota e o id do utilizador pelo token de acesso,
+verifica se o token é válido, e se sim, verifica se o utilizador é o autor do comentário ou um admin,
+e se sim, apaga o comentário da base de dados
+"""
+@moral.route("/api/moral/comentarios/delete/<int:message_id>", methods=["DELETE"])
+@limiter.limit("50 per minute")
+@jwt_required()
+def delete_comentario(message_id):
+
+    # Obter o id do utilizador do token de acesso
+    user_id = get_jwt_identity()
+
+
+    # Procura o utilizador para verificar se o token é valido e se ele é mesmo o dono do comentário ou um admin
+    user = User.query.get(user_id)
+    
+
+    # Se não existe, retorna erro
+    if not user:
+        return jsonify({"error": "Utilizador não encontrado."}), 404
+
+
+    # Procurar o comentário para verificar se ele existe
+    comentario = Message.query.get(message_id)
+    
+
+    # Se não existe, retorna erro
+    if not comentario:
+        return jsonify({"error": "Comentário não encontrado."}), 404
+    
+
+    # Se o user do comentario for diferente do user autenticado E o user autenticado não for admin, não tem permissão para apagar
+    if comentario.user != user.username and not user.is_admin: 
+        return jsonify({"error": "Sem permissão."}), 403
+    
+    # Apagar o comentário da base de dados
+    db.session.delete(comentario)
+    db.session.commit()
+
+
+    # Retorna resposta de sucesso
+    return jsonify({"message": "Comentário apagado."}), 200
