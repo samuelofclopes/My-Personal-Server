@@ -1,0 +1,409 @@
+/* ============================================================
+   MOITA'S SERVER — Dark Theme
+   Paleta: #8895B3 #8e94f2 #9fa0ff #bbadff #dab6fc
+   Sim, isto foi inteiramente feito com IA, eu poderia ter feito á mão,
+   mas como o meu foco é o backend, quis poupar tempo e ter um design decente sem tantos problemas
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap');
+
+/* ── Variáveis ─────────────────────────────────────────────── */
+:root {
+  --bg:        #0b0c10;
+  --bg-2:      #111318;
+  --bg-3:      #181a21;
+  --border:    rgba(136, 149, 179, 0.12);
+  --border-h:  rgba(159, 160, 255, 0.3);
+
+  --c1: #8895B3;
+  --c2: #8e94f2;
+  --c3: #9fa0ff;
+  --c4: #bbadff;
+  --c5: #dab6fc;
+
+  --text:      #e8eaf0;
+  --text-muted:#8895B3;
+  --text-dim:  #4a4f63;
+
+  --radius:    10px;
+  --radius-lg: 18px;
+  --ff-title:  'Syne', sans-serif;
+  --ff-mono:   'DM Mono', monospace;
+}
+
+/* ── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Base ──────────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--ff-mono);
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Fundo com grelha subtil */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(159,160,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(159,160,255,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Brilho de fundo — canto superior esquerdo */
+body::after {
+  content: "";
+  position: fixed;
+  top: -200px;
+  left: -200px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(142,148,242,0.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Tipografia ─────────────────────────────────────────────── */
+h1, h2, h3, h4 {
+  font-family: var(--ff-title);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; }
+h2 { font-size: clamp(1.3rem, 3vw, 1.9rem); }
+h3 { font-size: 1.2rem; }
+
+p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+a {
+  color: var(--c3);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover { color: var(--c5); }
+
+/* ── Layout ─────────────────────────────────────────────────── */
+.page-wrapper {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding: 0 clamp(16px, 4vw, 48px);
+}
+
+/* ── Header ─────────────────────────────────────────────────── */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 40px;
+  animation: slideDown 0.5s ease both;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ── Card / Form Container ──────────────────────────────────── */
+.form-container {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: clamp(24px, 4vw, 40px);
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  animation: fadeUp 0.5s ease both;
+}
+
+/* Linha de destaque no topo do card */
+.form-container::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 24px; right: 24px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--c3), transparent);
+  border-radius: 99px;
+}
+
+.form-container:hover {
+  border-color: var(--border-h);
+  transition: border-color 0.3s;
+}
+
+/* ── Layout de Página de Auth (login, signup) ───────────────── */
+.auth-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  gap: 0;
+}
+
+.auth-aside {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(32px, 6vw, 80px);
+  border-right: 1px solid var(--border);
+  animation: slideRight 0.6s ease both;
+}
+
+.auth-aside .tagline {
+  font-family: var(--ff-title);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  background: linear-gradient(135deg, var(--c3), var(--c5));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 16px;
+}
+
+.auth-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: clamp(32px, 6vw, 80px);
+}
+
+/* ── Dashboard Layout ───────────────────────────────────────── */
+.containers_wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 24px;
+  margin-top: 24px;
+  align-items: start;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+
+.left_side_container,
+.right_side_container {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  height: 580px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--c2) transparent;
+  position: relative;
+}
+
+.left_side_container { transform: translateY(24px); }
+.right_side_container { transform: translateY(-8px); }
+
+.left_side_container::after,
+.right_side_container::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60px;
+  background: linear-gradient(transparent, var(--bg-2));
+  pointer-events: none;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+/* ── Inputs ─────────────────────────────────────────────────── */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input {
+  display: block;
+  width: 100%;
+  padding: 11px 14px;
+  margin: 10px 0;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--ff-mono);
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+input:focus {
+  border-color: var(--c3);
+  box-shadow: 0 0 0 3px rgba(159,160,255,0.1);
+}
+
+input::placeholder { color: var(--text-dim); }
+
+/* ── Botões ─────────────────────────────────────────────────── */
+button {
+  background: linear-gradient(135deg, var(--c2), var(--c3));
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 11px 20px;
+  font-family: var(--ff-title);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+  letter-spacing: 0.03em;
+  width: 100%;
+  margin-top: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+button:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(159,160,255,0.2); }
+button:hover::after { opacity: 1; }
+button:active { transform: translateY(0); }
+button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+/* Botão secundário */
+button.secondary {
+  background: transparent;
+  border: 1px solid var(--border-h);
+  color: var(--c3);
+  width: auto;
+  margin-top: 0;
+}
+button.secondary:hover { background: rgba(159,160,255,0.07); }
+
+/* ── Mensagens de Erro ──────────────────────────────────────── */
+.erro, #erro {
+  color: #f07070;
+  font-size: 0.82rem;
+  margin-top: 6px;
+  display: block;
+  min-height: 18px;
+  animation: shake 0.35s ease;
+}
+
+/* ── Mensagens do Mural ─────────────────────────────────────── */
+.moral-msg {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  word-break: break-word;
+  font-size: 0.88rem;
+  animation: fadeUp 0.3s ease both;
+}
+
+.moral-msg:last-child { border-bottom: none; }
+
+.moral-info {
+  display: block;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  margin-top: 4px;
+}
+
+/* ── Tabela ─────────────────────────────────────────────────── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+th, td {
+  padding: 13px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  font-family: var(--ff-title);
+  font-weight: 600;
+  color: var(--c3);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+tr:hover td { background: rgba(159,160,255,0.03); }
+
+/* ── Botão de apagar comentário ────────────────────────────── */
+.apagar_comentario_button {
+  background: transparent;
+  border: 1px solid rgba(240,112,112,0.3);
+  color: #f07070;
+  font-size: 0.75rem;
+  padding: 3px 10px;
+  border-radius: 6px;
+  width: auto;
+  margin-top: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.apagar_comentario_button:hover { background: rgba(240,112,112,0.1); transform: none; box-shadow: none; }
+
+/* ── Logo / Girar ───────────────────────────────────────────── */
+.girar {
+  width: 42px;
+  height: 42px;
+  animation: oscilar 3s ease-in-out infinite alternate;
+}
+
+/* ── Animações ──────────────────────────────────────────────── */
+@keyframes oscilar {
+  from { transform: rotate(-45deg); }
+  to   { transform: rotate(45deg); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-5px); }
+  75%       { transform: translateX(5px); }
+}
+
+/* Entrada escalonada para listas */
+.moral-msg:nth-child(1)  { animation-delay: 0.05s; }
+.moral-msg:nth-child(2)  { animation-delay: 0.10s; }
+.moral-msg:nth-child(3)  { animation-delay: 0.15s; }
+.moral-msg:nth-child(4)  { animation-delay: 0.20s; }
+.moral-msg:nth-child(5)  { animation-delay: 0.25s; }
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .auth-layout { grid-template-columns: 1fr; }
+  .auth-aside { display: none; }
+  .containers_wrapper { grid-template-columns: 1fr; }
+  .left_side_container,
+  .right_side_container { transform: none; height: auto; max-height: 420px; }
+}
