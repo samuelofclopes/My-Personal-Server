@@ -1,6 +1,6 @@
 /* ============================================================
-   MOITA'S SERVER — Dark Theme
-   Paleta: #8895B3 #8e94f2 #9fa0ff #bbadff #dab6fc
+   MOITA'S SERVER — Semi Theme
+   Paleta: #add7f6 #7bb9ff #3f8efc #2667ff
    Sim, isto foi inteiramente feito com IA, eu poderia ter feito á mão,
    mas como o meu foco é o backend, quis poupar tempo e ter um design decente sem tantos problemas
    ============================================================ */
@@ -9,21 +9,20 @@
 
 /* ── Variáveis ─────────────────────────────────────────────── */
 :root {
-  --bg:        #0b0c10;
-  --bg-2:      #111318;
-  --bg-3:      #181a21;
-  --border:    rgba(136, 149, 179, 0.12);
-  --border-h:  rgba(159, 160, 255, 0.3);
+  --bg:        #add7f6;
+  --bg-2:      rgba(255,255,255,0.55);
+  --bg-3:      rgba(255,255,255,0.35);
+  --border:    rgba(63,142,252,0.15);
+  --border-h:  rgba(38,103,255,0.35);
 
-  --c1: #8895B3;
-  --c2: #8e94f2;
-  --c3: #9fa0ff;
-  --c4: #bbadff;
-  --c5: #dab6fc;
+  --c1: #add7f6;
+  --c2: #7bb9ff;
+  --c3: #3f8efc;
+  --c4: #2667ff;
 
-  --text:      #e8eaf0;
-  --text-muted:#8895B3;
-  --text-dim:  #4a4f63;
+  --text:      #0f1f3d;
+  --text-muted:#2c4a7c;
+  --text-dim:  #7a9cc4;
 
   --radius:    10px;
   --radius-lg: 18px;
@@ -34,9 +33,9 @@
 /* ── Reset ─────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── Base ──────────────────────────────────────────────────── */
 html { scroll-behavior: smooth; }
 
+/* ── Base ──────────────────────────────────────────────────── */
 body {
   font-family: var(--ff-mono);
   background-color: var(--bg);
@@ -46,28 +45,28 @@ body {
   line-height: 1.6;
 }
 
-/* Fundo com grelha subtil */
+/* Grelha subtil */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(159,160,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(159,160,255,0.03) 1px, transparent 1px);
+    linear-gradient(rgba(38,103,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(38,103,255,0.05) 1px, transparent 1px);
   background-size: 48px 48px;
   pointer-events: none;
   z-index: 0;
 }
 
-/* Brilho de fundo — canto superior esquerdo */
+/* Brilho de fundo */
 body::after {
   content: "";
   position: fixed;
-  top: -200px;
-  left: -200px;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(142,148,242,0.07) 0%, transparent 70%);
+  bottom: -150px;
+  right: -150px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(38,103,255,0.12) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -90,11 +89,11 @@ p {
 }
 
 a {
-  color: var(--c3);
+  color: var(--c4);
   text-decoration: none;
   transition: color 0.2s;
 }
-a:hover { color: var(--c5); }
+a:hover { color: var(--c3); text-decoration: underline; }
 
 /* ── Layout ─────────────────────────────────────────────────── */
 .page-wrapper {
@@ -113,6 +112,8 @@ a:hover { color: var(--c5); }
   border-bottom: 1px solid var(--border);
   margin-bottom: 40px;
   animation: slideDown 0.5s ease both;
+  position: relative;
+  z-index: 1;
 }
 
 .header-actions {
@@ -124,16 +125,19 @@ a:hover { color: var(--c5); }
 /* ── Card / Form Container ──────────────────────────────────── */
 .form-container {
   background: var(--bg-2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: clamp(24px, 4vw, 40px);
   width: 100%;
   max-width: 420px;
   position: relative;
+  z-index: 1;
   animation: fadeUp 0.5s ease both;
+  box-shadow: 0 8px 32px rgba(38,103,255,0.08);
 }
 
-/* Linha de destaque no topo do card */
 .form-container::before {
   content: "";
   position: absolute;
@@ -145,10 +149,11 @@ a:hover { color: var(--c5); }
 
 .form-container:hover {
   border-color: var(--border-h);
-  transition: border-color 0.3s;
+  box-shadow: 0 12px 40px rgba(38,103,255,0.13);
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-/* ── Layout de Página de Auth (login, signup) ───────────────── */
+/* ── Auth Layout ─────────────────────────────────────────────── */
 .auth-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -163,6 +168,8 @@ a:hover { color: var(--c5); }
   padding: clamp(32px, 6vw, 80px);
   border-right: 1px solid var(--border);
   animation: slideRight 0.6s ease both;
+  position: relative;
+  z-index: 1;
 }
 
 .auth-aside .tagline {
@@ -170,7 +177,7 @@ a:hover { color: var(--c5); }
   font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 800;
   line-height: 1.1;
-  background: linear-gradient(135deg, var(--c3), var(--c5));
+  background: linear-gradient(135deg, var(--c4), var(--c3));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -183,6 +190,8 @@ a:hover { color: var(--c5); }
   justify-content: center;
   align-items: flex-start;
   padding: clamp(32px, 6vw, 80px);
+  position: relative;
+  z-index: 1;
 }
 
 /* ── Dashboard Layout ───────────────────────────────────────── */
@@ -193,22 +202,27 @@ a:hover { color: var(--c5); }
   margin-top: 24px;
   align-items: start;
   animation: fadeUp 0.6s 0.1s ease both;
+  position: relative;
+  z-index: 1;
 }
 
 .left_side_container,
 .right_side_container {
   background: var(--bg-2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 24px;
   height: 580px;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: var(--c2) transparent;
+  scrollbar-color: var(--c3) transparent;
   position: relative;
+  box-shadow: 0 4px 20px rgba(38,103,255,0.06);
 }
 
-.left_side_container { transform: translateY(24px); }
+.left_side_container  { transform: translateY(24px); }
 .right_side_container { transform: translateY(-8px); }
 
 .left_side_container::after,
@@ -243,14 +257,15 @@ input {
 
 input:focus {
   border-color: var(--c3);
-  box-shadow: 0 0 0 3px rgba(159,160,255,0.1);
+  box-shadow: 0 0 0 3px rgba(63,142,252,0.15);
+  background: rgba(255,255,255,0.6);
 }
 
 input::placeholder { color: var(--text-dim); }
 
 /* ── Botões ─────────────────────────────────────────────────── */
 button {
-  background: linear-gradient(135deg, var(--c2), var(--c3));
+  background: linear-gradient(135deg, var(--c3), var(--c4));
   color: #fff;
   border: none;
   border-radius: var(--radius);
@@ -267,33 +282,26 @@ button {
   overflow: hidden;
 }
 
-button::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent);
-  opacity: 0;
-  transition: opacity 0.2s;
+button:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(38,103,255,0.25);
 }
-
-button:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(159,160,255,0.2); }
-button:hover::after { opacity: 1; }
 button:active { transform: translateY(0); }
 button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
-/* Botão secundário */
 button.secondary {
   background: transparent;
   border: 1px solid var(--border-h);
-  color: var(--c3);
+  color: var(--c4);
   width: auto;
   margin-top: 0;
 }
-button.secondary:hover { background: rgba(159,160,255,0.07); }
+button.secondary:hover { background: rgba(38,103,255,0.07); }
 
-/* ── Mensagens de Erro ──────────────────────────────────────── */
+/* ── Erro ───────────────────────────────────────────────────── */
 .erro, #erro {
-  color: #f07070;
+  color: #c0392b;
   font-size: 0.82rem;
   margin-top: 6px;
   display: block;
@@ -309,7 +317,6 @@ button.secondary:hover { background: rgba(159,160,255,0.07); }
   font-size: 0.88rem;
   animation: fadeUp 0.3s ease both;
 }
-
 .moral-msg:last-child { border-bottom: none; }
 
 .moral-info {
@@ -335,19 +342,19 @@ th, td {
 th {
   font-family: var(--ff-title);
   font-weight: 600;
-  color: var(--c3);
+  color: var(--c4);
   font-size: 0.8rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-tr:hover td { background: rgba(159,160,255,0.03); }
+tr:hover td { background: rgba(38,103,255,0.03); }
 
-/* ── Botão de apagar comentário ────────────────────────────── */
+/* ── Botão apagar ───────────────────────────────────────────── */
 .apagar_comentario_button {
   background: transparent;
-  border: 1px solid rgba(240,112,112,0.3);
-  color: #f07070;
+  border: 1px solid rgba(192,57,43,0.3);
+  color: #c0392b;
   font-size: 0.75rem;
   padding: 3px 10px;
   border-radius: 6px;
@@ -356,9 +363,13 @@ tr:hover td { background: rgba(159,160,255,0.03); }
   cursor: pointer;
   transition: background 0.2s;
 }
-.apagar_comentario_button:hover { background: rgba(240,112,112,0.1); transform: none; box-shadow: none; }
+.apagar_comentario_button:hover {
+  background: rgba(192,57,43,0.08);
+  transform: none;
+  box-shadow: none;
+}
 
-/* ── Logo / Girar ───────────────────────────────────────────── */
+/* ── Logo ───────────────────────────────────────────────────── */
 .girar {
   width: 42px;
   height: 42px;
@@ -392,17 +403,16 @@ tr:hover td { background: rgba(159,160,255,0.03); }
   75%       { transform: translateX(5px); }
 }
 
-/* Entrada escalonada para listas */
-.moral-msg:nth-child(1)  { animation-delay: 0.05s; }
-.moral-msg:nth-child(2)  { animation-delay: 0.10s; }
-.moral-msg:nth-child(3)  { animation-delay: 0.15s; }
-.moral-msg:nth-child(4)  { animation-delay: 0.20s; }
-.moral-msg:nth-child(5)  { animation-delay: 0.25s; }
+.moral-msg:nth-child(1) { animation-delay: 0.05s; }
+.moral-msg:nth-child(2) { animation-delay: 0.10s; }
+.moral-msg:nth-child(3) { animation-delay: 0.15s; }
+.moral-msg:nth-child(4) { animation-delay: 0.20s; }
+.moral-msg:nth-child(5) { animation-delay: 0.25s; }
 
 /* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .auth-layout { grid-template-columns: 1fr; }
-  .auth-aside { display: none; }
+  .auth-aside  { display: none; }
   .containers_wrapper { grid-template-columns: 1fr; }
   .left_side_container,
   .right_side_container { transform: none; height: auto; max-height: 420px; }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+
+<body class="auth-layout">
+  <!-- Painel esquerdo -->
+  <aside class="auth-aside">
+    <span class="tagline">Moita's<br>Server</span>
+    <p>"The only way to do great work is to love what you do."<br> - Steve Jobs</p>
+  </aside>
+
+  <!-- Painel direito — formulário -->
+  <main class="auth-main">
+    <div class="form-container">
+      <h2>sign Up</h2>
+      <input type="text" id="username" placeholder="Nome de utilizador">
+      <input type="email" id="email" placeholder="Email">
+      <input type="password" id="password" placeholder="Password">
+      <input type="password" id="confirm_password" placeholder="Confirm Password">
+      
+      <p id="erro"></p>
+      <button onclick="fazer_signup()">Registar</button>
+      <p><a href="/forgot_password">Esqueceste a palavra-passe?</a></p>
+      <p>Já tem conta? <a href="/login">Entrar</a></p>
+    </div>
+  </main>
+  <script src="static/js/signup.js"></script>
+</body>
+
+</html>
