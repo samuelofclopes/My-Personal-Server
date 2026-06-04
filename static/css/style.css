@@ -222,8 +222,6 @@ a:hover { color: var(--c3); text-decoration: underline; }
   box-shadow: 0 4px 20px rgba(38,103,255,0.06);
 }
 
-.left_side_container  { transform: translateY(24px); }
-.right_side_container { transform: translateY(-8px); }
 
 .left_side_container::after,
 .right_side_container::after {
