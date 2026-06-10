@@ -1,4 +1,4 @@
-import os
+from os import getenv
 from flask import Flask
 from itsdangerous import URLSafeTimedSerializer
 from extensions import db, jwt, migrate, limiter
@@ -15,14 +15,14 @@ load_dotenv()
 # create_app é a função que retorna toda a aplicação e as suas extenções.
 def create_app():
     app = Flask(__name__)
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+    app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    app.config["JWT_SECRET_KEY"] = os.getenv("JWT_KEY")
+    app.config["JWT_SECRET_KEY"] = getenv("JWT_KEY")
     db.init_app(app)
     jwt.init_app(app)
     migrate.init_app(app, db)
     limiter.init_app(app)
-    app.serializer = URLSafeTimedSerializer(os.getenv("JWT_KEY"))
+    app.serializer = URLSafeTimedSerializer(getenv("JWT_KEY"))
     app.register_blueprint(auth_bp)
     app.register_blueprint(moral_bp)
     app.register_blueprint(frontend_bp)

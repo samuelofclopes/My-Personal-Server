@@ -62,8 +62,7 @@ def signup():
     # Enviar email de verificação
     send_mail(
         email=novo_user.email,
-        code=novo_user.v_code,
-        user_id=novo_user.id
+        code=novo_user.v_code
     )
 
     # Retornar resposta de sucesso
@@ -98,9 +97,9 @@ def signin():
 
 
     # Verificar se o utilizador existe e se a password está correta
-    user = User.query.filter_by(email=dados.get("email")).first()
+    user = User.query.filter_by(username=dados.get("username")).first()
     if not user or not user.check_password(dados.get("password")):
-        return {"message": "Email ou password incorretos"}, 401
+        return {"message": "Username ou password incorretos"}, 401
 
     # Verificar se o email do utilizador está verificado
     if not user.email_v:
@@ -153,11 +152,14 @@ def get_user():
 """
 Esta rota é responsável por verificar o email do utilizador,
 para isso, ele precisa de dados de verificação vindos do email.
+È ligeiramente diferente das rotas normais porque devolve um redirect,
+pelo facto de ser acedida por um link, e não por um pedido fetch.
+Tambem temos a reset_password, que funcionam da mesma maneira.
 """
-@auth.route("/api/auth/confirm_email/<string:token>", methods=["POST"])
+@auth.route("/api/auth/confirm_email/<string:token>", methods=["GET"])
 @limiter.limit("30 per minute")
 def confirm_email(token):
-    
+
 
     # Verificar se o código de verificação é válido e não expirou usando try except para controlar os erros.
     try:
@@ -181,7 +183,7 @@ def confirm_email(token):
     db.session.commit()
 
     # Retornar resposta de sucesso
-    return {"message": "Email verificado com sucesso"}, 200
+    return redirect("/login")
 
 
 
