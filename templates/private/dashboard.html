@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Moita's Server</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" type="image/x-icon" href="/static/images/icon.ico">
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="header-container">
+            <h1>
+                <img src="/static/images/logo.png" alt="logo" class="girar">
+                Moita's Server
+            </h1>
+            <div class="header-actions">
+                <button class="secondary" onclick="ver_perfil()">PERFIL</button>
+                <button class="secondary" onclick="logout()">LOGOUT</button>
+                
+            </div>
+        </header>
+
+        <div class="containers_wrapper">
+            <div class="left_side_container">
+                <h1>Bem vindo ao servidor de Moita</h1>
+                <h4></h4>
+            </div>
+            <div class="right_side_container">
+                <h1><strong>Moral</strong></h1>
+                <input type="text" id="comentario" placeholder="Escreva seu comentário e pressione Enter para enviar...">
+                <h4 id="moral">Carregando...</h4>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>
