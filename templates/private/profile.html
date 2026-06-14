@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil - Moita's Server</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" type="image/x-icon" href="/static/images/icon.ico">
+    <style>
+
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+
+        <!-- Header idêntico ao dashboard para transição suave -->
+        <header class="header-container">
+            <h1>
+                <img src="/static/images/logo.png" alt="logo" class="girar">
+                Moita's Server
+            </h1>
+            <div class="header-actions">
+                <button class="secondary" onclick="ver_dashboard()">DASHBOARD</button>
+                <button class="secondary" onclick="logout()">LOGOUT</button>
+            </div>
+        </header>
+
+        <div class="containers_wrapper">
+
+            <!-- Cartão de perfil -->
+            <div class="left_side_container">
+                <div class="profile-card">
+                    <div class="profile-avatar" id="avatar">--</div>
+                    <p class="profile-name" id="profile-username">Carregando...</p>
+                    <p class="profile-email" id="profile-email">...</p>
+                    <span class="profile-badge" id="profile-badge">#0000</span>
+
+                    <div class="profile-divider"></div>
+
+                    <div class="info-row">
+                        <span class="label">Membro desde</span>
+                        <span class="value" id="profile-created">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detalhes e ações -->
+            <div class="right_side_container">
+
+                <p class="section-label">Detalhes da Conta</p>
+
+                <div class="info-row">
+                    <span class="label">Username</span>
+                    <span class="value" id="detail-username">—</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Email</span>
+                    <span class="value" id="detail-email">—</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">ID</span>
+                    <span class="value" id="detail-id">—</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Data de criação</span>
+                    <span class="value" id="detail-created">—</span>
+                </div>
+
+                <p class="section-label">Segurança</p>
+
+                <p class="reset-info">
+                    Para alterar a tua password, envia um email de recuperação para o endereço associado à conta.
+                </p>
+                <span id="msg-reset"></span>
+                <button onclick="pedir_reset()" id="btn-reset">ENVIAR EMAIL DE RECUPERAÇÃO</button>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/profile.js"></script>
+</body>
+</html>
