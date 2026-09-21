@@ -51,12 +51,15 @@ Mural
 
 Porque eu o fiz?
 ===========================================================================
+
 Este projeto é um dos projetos mais importantes que eu tenho, e tudo isso por um motivo simples, desafio, eu estava no 10º Ano do meu curso quando comecei a fazer este projeto, a materia de lá era simplesmente facil demais para mim, passei o ano inteiro a estudar coisas que eu já sabia quase de cór!
 Por isso eu tive uma brilhante ideia, empenhar-me para fazer algo maior, um projeto realmente bom, e eu pensei "Ah, porque não um servidor?" e evoluindo as minhas ideias, este foi o resultado, no meu ver, foi um bom resultado, com direito a dominio, e tudo organizado, eu acho que este trabalho foi otimo 
 para aprender como as coisas realmente funcionam, (Eu rodei este servidor por semanas seguidas, através de Termux, num telemovel reutilizado.)
 O meu aprendizado ao longo de este projeto
-===========================================================================
+
 Neste projeto adquiri varias competencias uteis, entre elas:
+===========================================================================
+
 - Flask Blueprints - (Organização das rotas em módulos separados: auth, moral, frontend)
 - SQLAlchemy ORM - (Modelos `User` e `Message`, queries e relações)
 - Flask-Migrate - (Gestão de migrações da base de dados)
