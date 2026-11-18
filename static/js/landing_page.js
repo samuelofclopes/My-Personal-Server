@@ -21,7 +21,7 @@ function carregarMural() {
                     {
                     const p = document.createElement("p");
                     p.innerText = msg.content;
-                    p.textContent += "<br><span class='mural-info'>User: " + msg.user + " | Postado em: " + new Date(msg.created_at).toLocaleString()+ "</span>";
+                    p.innerHTML += "<br><span class='mural-info'>User: " + msg.user + " | Postado em: " + new Date(msg.created_at).toLocaleString()+ "</span>";
                     m.appendChild(p);
                     });
                 })

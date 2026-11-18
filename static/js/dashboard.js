@@ -79,7 +79,7 @@ function carregarMural()
                 {
                 const div = document.createElement("div");
                 div.className = "mural-msg";
-                div.innerHTML = msg.content +
+                div.textContent = msg.content +
                     "<span class='mural-info'>User: " + msg.user +
                     " | Postado em: " + new Date(msg.created_at).toLocaleString() + "</span>";
 
@@ -111,7 +111,7 @@ function carregarMural()
 // Função para apagar um comentário
 function apagarComentario(id) 
     {
-    fetch("/api/mural/comentarios/" + id, 
+    fetch("/api/mural/comentarios/delete/" + id, 
         {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }

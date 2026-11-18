@@ -40,6 +40,8 @@ def have_all_data(data, purpose):
     
     if not data:
         return False, "Dados em falta."
+    if not isinstance(data, dict):
+        return False, "Dados em falta."
     if not data.get("username"):
         return False, "Username é obrigatório."
     if not data.get("password"):
