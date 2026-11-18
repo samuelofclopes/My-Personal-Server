@@ -5,7 +5,7 @@ frontend = Blueprint("frontend", __name__)
 
 """
 Esta rota é responsável por renderizar a página principal do site,
-onde o moral é exibido
+onde o mural é exibido
 """
 @frontend.route("/")
 def landing_page():

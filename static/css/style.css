@@ -308,16 +308,16 @@ button.secondary:hover { background: rgba(38,103,255,0.07); }
 }
 
 /* ── Mensagens do Mural ─────────────────────────────────────── */
-.moral-msg {
+.mural-msg {
   padding: 14px 0;
   border-bottom: 1px solid var(--border);
   word-break: break-word;
   font-size: 0.88rem;
   animation: fadeUp 0.3s ease both;
 }
-.moral-msg:last-child { border-bottom: none; }
+.mural-msg:last-child { border-bottom: none; }
 
-.moral-info {
+.mural-info {
   display: block;
   color: var(--text-dim);
   font-size: 0.75rem;
@@ -401,11 +401,11 @@ tr:hover td { background: rgba(38,103,255,0.03); }
   75%       { transform: translateX(5px); }
 }
 
-.moral-msg:nth-child(1) { animation-delay: 0.05s; }
-.moral-msg:nth-child(2) { animation-delay: 0.10s; }
-.moral-msg:nth-child(3) { animation-delay: 0.15s; }
-.moral-msg:nth-child(4) { animation-delay: 0.20s; }
-.moral-msg:nth-child(5) { animation-delay: 0.25s; }
+.mural-msg:nth-child(1) { animation-delay: 0.05s; }
+.mural-msg:nth-child(2) { animation-delay: 0.10s; }
+.mural-msg:nth-child(3) { animation-delay: 0.15s; }
+.mural-msg:nth-child(4) { animation-delay: 0.20s; }
+.mural-msg:nth-child(5) { animation-delay: 0.25s; }
 
 /* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 768px) {

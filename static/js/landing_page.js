@@ -1,11 +1,11 @@
-document.addEventListener("DOMContentLoaded", carregarMoral); // Assim que a pagina carregar, chamamos carregarMoral
+document.addEventListener("DOMContentLoaded", carregarMural); // Assim que a pagina carregar, chamamos carregarMural
 document.addEventListener("DOMContentLoaded", carregarUpdates); // Assim que a pagina carregar, chamamos carregarUpdates
-setInterval(carregarMoral, 25000); // A cada 25 segundos, chamamos carregarMoral para atualizar o mural sem precisar recarregar a página
+setInterval(carregarMural, 25000); // A cada 25 segundos, chamamos carregarMural para atualizar o mural sem precisar recarregar a página
 
-function carregarMoral() {
+function carregarMural() {
 
     // Fazemos um fetch para a rota da API que retorna as mensagens do mural
-    fetch("/api/moral")
+    fetch("/api/mural")
 
         // Transformamos a resposta em JSON
         .then(response => response.json())
@@ -13,7 +13,7 @@ function carregarMoral() {
         // Agora 'data' é o objeto retornado pela API, que deve conter um array de mensagens
         .then(data => 
                 {
-                const m = document.getElementById("moral");
+                const m = document.getElementById("mural");
                 m.innerText = ""; // Limpa o "Carregando..."
 
                 // Pega cada mensagem do array de mensagens e adiciona ao mural
@@ -21,7 +21,7 @@ function carregarMoral() {
                     {
                     const p = document.createElement("p");
                     p.innerText = msg.content;
-                    p.innerHTML += "<br><span class='moral-info'>User: " + msg.user + " | Postado em: " + new Date(msg.created_at).toLocaleString()+ "</span>";
+                    p.textContent += "<br><span class='mural-info'>User: " + msg.user + " | Postado em: " + new Date(msg.created_at).toLocaleString()+ "</span>";
                     m.appendChild(p);
                     });
                 })
@@ -29,8 +29,8 @@ function carregarMoral() {
             // Se ocorrer um erro ao carregar as mensagens, exibe uma mensagem de erro na consola e na página
             .catch(error => 
                     {
-                        console.error("Erro ao carregar a moral:", error);
-                    document.getElementById("moral").innerText = "Erro ao carregar mensagens.";
+                        console.error("Erro ao carregar a mural:", error);
+                    document.getElementById("mural").innerText = "Erro ao carregar mensagens.";
                     }
              );
 }

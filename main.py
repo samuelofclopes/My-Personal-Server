@@ -3,7 +3,7 @@ from flask import Flask
 from itsdangerous import URLSafeTimedSerializer
 from extensions import db, jwt, migrate, limiter
 from routes.auth import auth as auth_bp
-from routes.moral import moral as moral_bp
+from routes.mural import mural as mural_bp
 from routes.frontend import frontend as frontend_bp
 from dotenv import load_dotenv
 
@@ -15,7 +15,7 @@ load_dotenv()
 # create_app é a função que retorna toda a aplicação e as suas extenções.
 def create_app():
     app = Flask(__name__)
-    app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DATABASE_URL")
+    app.config["SQLALCHEMY_DATABASE_URI"] = getenv("SQLALCHEMY_DATABASE_URI")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["JWT_SECRET_KEY"] = getenv("JWT_KEY")
     db.init_app(app)
@@ -24,7 +24,7 @@ def create_app():
     limiter.init_app(app)
     app.serializer = URLSafeTimedSerializer(getenv("JWT_KEY"))
     app.register_blueprint(auth_bp)
-    app.register_blueprint(moral_bp)
+    app.register_blueprint(mural_bp)
     app.register_blueprint(frontend_bp)
     with app.app_context():
         db.create_all()
@@ -33,4 +33,4 @@ def create_app():
 
 if __name__ == "__main__":
     app = create_app()
-    app.run(debug=True)
+    app.run(debug=False) # Se for para produção, é sempre melhor usar Gunicorn ou qualquer outro meio.

@@ -1,12 +1,12 @@
 // Carrega as três funções assim que a página é carregada
 document.addEventListener("DOMContentLoaded", async () => {
     await ver_token();
-    carregarMoral();
+    carregarMural();
     carregarUpdates();
 });
 
-// define um intervalo para atualizar a moral a cada 25 segundos
-setInterval(carregarMoral, 25000);
+// define um intervalo para atualizar a mural a cada 25 segundos
+setInterval(carregarMural, 25000);
 
 // Variável global para armazenar o utilizador atual
 let utilizadorAtual = null;
@@ -56,12 +56,12 @@ function logout()
 
 
 
-// Função para carregar as mensagens da moral
-function carregarMoral() 
+// Função para carregar as mensagens da mural
+function carregarMural() 
     {
     
-    // Fazer o FETCH para obter as mensagens da moral
-    fetch("/api/moral")
+    // Fazer o FETCH para obter as mensagens da mural
+    fetch("/api/mural")
 
         //Transformar a resposta em JSON
         .then(response => response.json())
@@ -70,7 +70,7 @@ function carregarMoral()
         .then(data => 
             {
             // Limpar o container antes de adicionar as mensagens
-            const container = document.getElementById("moral");
+            const container = document.getElementById("mural");
             container.innerHTML = "";
 
             
@@ -78,9 +78,9 @@ function carregarMoral()
             data.mensagens.forEach(msg => 
                 {
                 const div = document.createElement("div");
-                div.className = "moral-msg";
+                div.className = "mural-msg";
                 div.innerHTML = msg.content +
-                    "<span class='moral-info'>User: " + msg.user +
+                    "<span class='mural-info'>User: " + msg.user +
                     " | Postado em: " + new Date(msg.created_at).toLocaleString() + "</span>";
 
                 
@@ -101,8 +101,8 @@ function carregarMoral()
         // Apanhamos o erro caso haja algum problema na conexão ou no processamento dos dados, e informamos o utilizador
         .catch(error => 
             {
-            console.error("Erro ao carregar a moral:", error);
-            document.getElementById("moral").innerText = "Erro ao carregar mensagens.";
+            console.error("Erro ao carregar a mural:", error);
+            document.getElementById("mural").innerText = "Erro ao carregar mensagens.";
             });
         }
 
@@ -111,7 +111,7 @@ function carregarMoral()
 // Função para apagar um comentário
 function apagarComentario(id) 
     {
-    fetch("/api/moral/comentarios/" + id, 
+    fetch("/api/mural/comentarios/" + id, 
         {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
@@ -121,7 +121,7 @@ function apagarComentario(id)
         {
         if (response.ok) 
             {
-            carregarMoral();
+            carregarMural();
             } 
         else 
             {
@@ -145,7 +145,7 @@ function Comentar()
     if (!comentario.value.trim()) return; // .trim é como o .strip em python
 
     // Fazer o FETCH para enviar o comentário
-    fetch("/api/moral/comentarios", 
+    fetch("/api/mural/comentarios", 
         {
         method: "POST",
         headers: {
@@ -155,13 +155,13 @@ function Comentar()
         body: JSON.stringify({ content: comentario.value })
     })
 
-    // Se a resposta for bem-sucedida, limpar o campo de comentário e recarregar as mensagens da moral. Caso contrário, mostrar um erro no console.
+    // Se a resposta for bem-sucedida, limpar o campo de comentário e recarregar as mensagens da mural. Caso contrário, mostrar um erro no console.
     .then(response => 
         {
         if (response.ok) 
             {
             comentario.value = "";
-            carregarMoral();
+            carregarMural();
             } 
         else 
             {

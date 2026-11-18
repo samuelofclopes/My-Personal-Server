@@ -5,7 +5,7 @@ Um servidor pessoal completo (Backend + Frontend), desenvolvido em Python com Fl
 Funcionalidades
 ============================================================================
 -  Autenticação com JWT - (Token seguro, com verificação de email obrigatória antes do login)
--  Verificação de Email (2FA) - (Confirmação da conta via link enviado para o email do utilizador)
+-  Verificação de Email - (Confirmação da conta via link enviado para o email do utilizador)
 -  Recuperação de Password - (Fluxo completo de "Esqueci-me da password" via email)
 -  Mural de Mensagens - (Os utilizadores autenticados podem postar e apagar comentários)
 -  Controlo de permissões - (admin / Utilizador comum, para apagar comentários de outros)
@@ -20,7 +20,7 @@ Como usar?
 Clonar o repositório
 Criar um ambiente virtual
 Instalar as dependências
-Criar um ficheiro `.env` com as variáveis `DATABASE_URL`, `JWT_KEY` e `RESEND_KEY`
+Criar um ficheiro `.env` com as variáveis `SQLALCHEMY_DATABASE_URI`, `JWT_KEY` e `RESEND_KEY`
 Executar a aplicação - (python3 main.py)
 A API estará disponível em `http://localhost:5000`
 
@@ -45,9 +45,9 @@ Autenticação
 - GET/POST /api/auth/reset_password/<token> - Ver / submeter a nova password
 
 Mural
-- GET /api/moral - Listar as últimas 50 mensagens
-- POST /api/moral/comentarios - Adicionar um comentário (requer token)
-- DELETE /api/moral/comentarios/delete/<id> - Apagar um comentário (autor ou admin)
+- GET /api/mural - Listar as últimas 50 mensagens
+- POST /api/mural/comentarios - Adicionar um comentário (requer token)
+- DELETE /api/mural/comentarios/delete/<id> - Apagar um comentário (autor ou admin)
 
 Porque eu o fiz?
 ===========================================================================
@@ -60,7 +60,7 @@ O meu aprendizado ao longo de este projeto
 Neste projeto adquiri varias competencias uteis, entre elas:
 ===========================================================================
 
-- Flask Blueprints - (Organização das rotas em módulos separados: auth, moral, frontend)
+- Flask Blueprints - (Organização das rotas em módulos separados: auth, mural, frontend)
 - SQLAlchemy ORM - (Modelos `User` e `Message`, queries e relações)
 - Flask-Migrate - (Gestão de migrações da base de dados)
 - JWT (Flask-JWT-Extended) - (Autenticação stateless com tokens)

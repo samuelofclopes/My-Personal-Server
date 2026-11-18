@@ -36,6 +36,8 @@ def confirm_password(password, confirm_password):
         return False, "Passwords não coincidem."
 
 def have_all_data(data, purpose):
+
+    
     if not data:
         return False, "Dados em falta."
     if not data.get("username"):

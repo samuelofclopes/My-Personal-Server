@@ -25,7 +25,9 @@ def signup():
     if not dados or not have_all_data_result[0]:
         return {"message": have_all_data_result[1]}, 400
     
-
+    if not all(isinstance(dados.get(k), str) for k in ("username", "email", "password", "confirm_password")):
+        return {"message": "Dados inválidos."}, 400
+    
     password_valida_result = password_valida(dados.get("password")) 
     if not password_valida_result[0]:
         return {"message": password_valida_result[1]}, 400
@@ -94,7 +96,8 @@ def signin():
     if not dados or not have_all_data_result[0]:
         return {"message": have_all_data_result[1]}, 400
     
-
+    if not all(isinstance(dados.get(k), str) for k in ("username", "password")):
+        return {"message": "Dados inválidos."}, 400
 
     # Verificar se o utilizador existe e se a password está correta
     user = User.query.filter_by(username=dados.get("username")).first()
@@ -144,7 +147,8 @@ def get_user():
         "id": user.id,
         "username": user.username,
         "email": user.email,
-        "created_at": user.created_at.isoformat()
+        "created_at": user.created_at.isoformat(),
+        "is_admin": user.is_admin
     }), 200
 
 
@@ -206,7 +210,7 @@ def forgot_password():
 
     user = User.query.filter_by(email=dados.get("email")).first()
     if not user:
-        return {"message": "Verifica a caixa de entrada do email."}, 400
+        return {"message": "Verifica a caixa de entrada do email."}, 200
 
 
     # Criar o token de recuperação de password
