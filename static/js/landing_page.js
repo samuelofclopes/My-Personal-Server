@@ -20,8 +20,13 @@ function carregarMural() {
                 data.mensagens.forEach(msg => 
                     {
                     const p = document.createElement("p");
-                    p.innerText = msg.content;
-                    p.innerHTML += "<br><span class='mural-info'>User: " + msg.user + " | Postado em: " + new Date(msg.created_at).toLocaleString()+ "</span>";
+                    p.textContent = msg.content;
+
+                    const info = document.createElement("span");
+                    info.className = "mural-info";
+                    info.textContent = `User: ${msg.user} | Postado em: ${new Date(msg.created_at).toLocaleString()}`;
+
+                    p.append(document.createElement("br"), info);
                     m.appendChild(p);
                     });
                 })

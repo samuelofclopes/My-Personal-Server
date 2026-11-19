@@ -79,9 +79,10 @@ function carregarMural()
                 {
                 const div = document.createElement("div");
                 div.className = "mural-msg";
-                div.textContent = msg.content +
-                    "<span class='mural-info'>User: " + msg.user +
-                    " | Postado em: " + new Date(msg.created_at).toLocaleString() + "</span>";
+                const info = document.createElement("span");
+                info.className = "mural-info";
+                info.textContent = "User: " + msg.user + " | Postado em: " + new Date(msg.created_at).toLocaleString();
+                div.append(document.createTextNode(msg.content), info);
 
                 
                 // se o utilizador atual for admin ou autor do comentário, mostrar o botão de apagar
